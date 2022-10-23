@@ -1,5 +1,5 @@
 body {
-    background-color: orangered;
+    background-color: rgb(219, 164, 35);
     margin: 0;
     font-family: rubik;
     color: white;
@@ -9,8 +9,9 @@ body {
     list-style: none;
     padding: 40px;
     background-color: #f4f4f4;
-    color: #222;
+    color: rgb(236, 152, 56);
     text-align: center;
+    border-radius: 20px;
 }
 
 .card:hover {
@@ -85,7 +86,7 @@ h1 {
     position: absolute;
     top: 20px;
     right: 20px;
-    background-color: orangered;
+    background-color: rgb(211, 145, 13);
     padding: 10px 20px;
     border: none;
     color: white;

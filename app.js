@@ -2,29 +2,29 @@ const pokedex = document.getElementById('pokedex');
 const cachedPokemon = {};
 
 const fetchPokemon = async () => {
-    const url = `https://pokeapi.co/api/v2/pokemon?limit=150`;
+    const url = `https://pokeapi.co/api/v2/pokemon`;
     const res = await fetch(url);
     const data = await res.json();
-    const pokemon = data.results.map((data, index) => ({
+    const pokemonData = data.results.map((data, index) => ({
         name: data.name,
         id: index + 1,
         image: `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${index +
             1}.png`
     }));
 
-    displayPokemon(pokemon);
+    displayPokemon(pokemonData);
 };
 
-const displayPokemon = (pokemon) => {
-    const pokemonHTMLString = pokemon
+const displayPokemon = (pokemonData) => {
+    const pokemonHTMLString = pokemonData
         .map(
-            (pokeman) =>
+            (pokemonData) =>
                 `
-    <li class="card" onclick="selectPokemon(${pokeman.id})">
-        <img class="card-image" src="${pokeman.image}"/>
-        <h2 class="card-title">${pokeman.id}. ${pokeman.name}</h2>
-        </a>
-    </li>
+            <li class="card" onclick="selectPokemon(${pokemonData.id})">
+                <img class="card-image" src="${pokemonData.image}"/>
+                <h2 class="card-title">${pokemonData.id}. ${pokemonData.name}</h2>
+                </a>
+            </li>
         `
         )
         .join('');
@@ -35,30 +35,30 @@ const selectPokemon = async (id) => {
     if (!cachedPokemon[id]) {
         const url = `https://pokeapi.co/api/v2/pokemon/${id}`;
         const res = await fetch(url);
-        const pokeman = await res.json();
-        cachedPokemon[id] = pokeman;
-        displayPokemanPopup(pokeman);
+        const pokemonData = await res.json();
+        cachedPokemon[id] = pokemonData;
+        displayPokemanPopup(pokemonData);
     } else {
         displayPokemanPopup(cachedPokemon[id]);
     }
 };
 
-const displayPokemanPopup = (pokeman) => {
-    console.log(pokeman);
-    const type = pokeman.types.map((type) => type.type.name).join(', ');
+const displayPokemanPopup = (pokemonData) => {
+    console.log(pokemonData);
+    const type = pokemonData.types.map((type) => type.type.name).join(', ');
     const htmlString = `
         <div class="popup">
             <button id="closeBtn" onclick="closePopup()">Close</button>
             <div class="card">
                 <img class="card-image" src="${
-                    pokeman.sprites['front_default']
+                    pokemonData.sprites['front_default']
                 }"/>
-                <h2 class="card-title">${pokeman.name}</h2>
-                <p><small>Type: ${type} | Height:</small> ${pokeman.height} | Weight: ${
-        pokeman.weight 
-    } | Abilities 1 :</small> ${pokeman.abilities[0].ability.name} | Abilities 2 :</small> ${pokeman.abilities[1].ability.name}
-    
-    </p>
+                <h2 class="card-title">${pokemonData.name}</h2>
+                <p><small>Type: ${type} | Height:</small> ${pokemonData.height} | Weight: ${
+                    pokemonData.weight 
+                } | Abilities 1 :</small> ${pokemonData.abilities[0].ability.name} | Abilities 2 :</small> ${pokemonData.abilities[1].ability.name}
+                
+                </p>
             </div>
         </div>
     `;
